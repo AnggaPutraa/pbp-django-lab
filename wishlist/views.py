@@ -4,16 +4,15 @@ from django.http import HttpResponse
 from django.core import serializers
 
 def show_wishlist(request):
-    wishlist_data_barang = BarangWishList.objects.all()
-    context = {
-        'list_barang' : wishlist_data_barang,
-        'nama' : 'Kak Cinoy'
-    }
+    data = BarangWishList.objects.all()
 
     return render(
         request, 
         "wishlist.html", 
-        context
+        {
+            'list_barang' : data,
+            'nama' : 'Kak Cinoy'
+        }
     )
 
 def show_wishlist_xml(request):
