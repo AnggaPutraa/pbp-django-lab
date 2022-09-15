@@ -11,7 +11,7 @@ def show_wishlist(request):
         "wishlist.html", 
         {
             'list_barang' : data,
-            'nama' : 'Kak Cinoy'
+            'nama' : 'Angga'
         }
     )
 
