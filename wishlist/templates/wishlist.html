@@ -1,23 +1,28 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<h5>Nama: </h5>
+
+<h3>Nama: </h3>
 <p>{{nama}}</p>
 
-<table>
+<h3>Student Id: </h3>
+<p>{{student_id}}</p>
+
+<table cellspacing = "16">
     <tr>
-    <th>Nama Barang</th>
-    <th>Harga Barang</th>
-    <th>Deskripsi</th>
+    <th align="left">Nama Barang</th>
+    <th align="left">Harga Barang</th>
+    <th align="left">Deskripsi</th>
     </tr>
-    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
     {% for barang in list_barang %}
         <tr>
-            <th>{{barang.nama_barang}}</th>
-            <th>{{barang.harga_barang}}</th>
-            <th>{{barang.deskripsi}}</th>
+            <td>{{barang.nama_barang}}</td>
+            <td>{{barang.harga_barang}}</td>
+            <td>{{barang.deskripsi}}</td>
         </tr>
     {% endfor %}
 </table>
+
+<h5>Sesi terakhir login: {{ last_login }}</h5>
+<button><a href="{% url 'wishlist:logout' %}">Logout</a></button>
 
 {% endblock content %}
