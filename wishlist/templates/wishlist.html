@@ -1,28 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3>Nama: </h3>
-<p>{{nama}}</p>
+<div class="container square-box  justify-content-center align-items-center">
+    <h3>Nama: </h3>
+    <p>{{nama}}</p>
 
-<h3>Student Id: </h3>
-<p>{{student_id}}</p>
+    <h3>Student Id: </h3>
+    <p>{{student_id}}</p>
 
-<table cellspacing = "16">
-    <tr>
-    <th align="left">Nama Barang</th>
-    <th align="left">Harga Barang</th>
-    <th align="left">Deskripsi</th>
-    </tr>
-    {% for barang in list_barang %}
+    <table class="table table-dark table-hover">
+        <tr>
+            <th align="left">Nama Barang</th>
+            <th align="left">Harga Barang</th>
+            <th align="left">Deskripsi</th>
+        </tr>
+        {% for barang in list_barang %}
         <tr>
             <td>{{barang.nama_barang}}</td>
             <td>{{barang.harga_barang}}</td>
             <td>{{barang.deskripsi}}</td>
         </tr>
-    {% endfor %}
-</table>
+        {% endfor %}
+    </table>
 
-<h5>Sesi terakhir login: {{ last_login }}</h5>
-<button><a href="{% url 'wishlist:logout' %}">Logout</a></button>
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
 
+    <button class="btn btn-dark"><a href="{% url 'wishlist:logout' %}">Logout</a></button>
+</div>
 {% endblock content %}
