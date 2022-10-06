@@ -1,7 +1,7 @@
 
 from django.urls import path
 from wishlist.views import show_wishlist, show_wishlist_xml, show_wishlist_json, show_json_by_id, show_xml_by_id
-from wishlist.views import register , login_user, logout_user 
+from wishlist.views import register , login_user, logout_user, show_ajax, add_barang_json
 
 app_name = 'wishlist'
 
@@ -10,8 +10,9 @@ urlpatterns = [
     path('xml/', show_wishlist_xml, name='show_wishlist_xml'),
     path('json/', show_wishlist_json, name='show_wishlist_json'),
     path('json/<int:id>', show_json_by_id, name='show_json_by_id'),
-    path('json/<int:id>', show_json_by_id, name='show_json_by_id'),
     path('xml/<int:id>', show_xml_by_id, name='show_xml_by_id'),
+    path('ajax/', show_ajax, name='show_ajax'),
+    path('ajax/submit', add_barang_json, name='add_barang_json'),
     path('register/', register, name='register'),
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),

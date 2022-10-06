@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function getDataFromForm($form) {
+        var unindexed_items = $form.serializeArray();
+        var result = {};
+        $.map(unindexed_items, function (n, i) {
+            result[n['name']] = n['value'];
+        });
+        return result;
+    }
+
+    $(document).ready(function () {
+        $.getJSON("{% url 'wishlist:show_wishlist_json' %}", function (json) {
+            var table = [];
+            $.each(json, function (index, data) {
+                var row = [];
+                var fields = data.fields
+                row.push("<td>" + data.fields.nama_barang + "</td>");
+                row.push("<td>" + data.fields.harga_barang + "</td>");
+                row.push("<td>" + data.fields.deskripsi + "</td>");
+                table.push("<tr>" + row.join("") + "</tr>");
+            });
+            document.getElementById("list_barang").innerHTML = table.join("");
+        });
+
+        $("#tambah_barang_form").submit(function (e) {
+            e.preventDefault();
+            var $form = $(this);
+            var serializedData = getDataFromForm($form);
+            console.log(serializedData)
+            $.ajax({
+                url: "{% url 'wishlist:add_barang_json' %}",
+                type: "POST",
+                data: serializedData,
+                dataType: 'text',
+                success: function (data) {
+                    $.getJSON(
+                        "{% url 'wishlist:show_wishlist_json' %}",
+                        function (json) {
+                            var table = [];
+                            $.each(json, function (index, data) {
+                                var row = [];
+                                var fields = data.fields
+                                row.push("<td>" + data.fields.nama_barang + "</td>");
+                                row.push("<td>" + data.fields.harga_barang + "</td>");
+                                row.push("<td>" + data.fields.deskripsi + "</td>");
+                                table.push("<tr>" + row.join("") + "</tr>");
+                            });
+                            document.getElementById("list_barang").innerHTML = table.join("");
+                        });
+                }
+            });
+        });
+    });
+</script>
+
+<h5>Nama: {{ name }}</h5>
+<br>
+
+<div class="container">
+
+    <form class="mb-5" method="POST" name="barang_form" id="tambah_barang_form">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Tambah Barang Wishlist</legend>
+            <input class="form-control mb-3" type="text" placeholder="Nama barang" name="nama_barang">
+            <input class="form-control mb-3" type="number" min="1" step="any" placeholder="Harga barang"
+                name="harga_barang">
+            <textarea class="form-control mb-3" rows="3" placeholder="Deskripsi" name="deskripsi"></textarea>
+            <button type="submit" class="btn btn-primary btnClick">Submit</button>
+        </fieldset>
+    </form>
+
+    <table class="table table-dark table-hover" style="background-color: #e3f2fd;">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Nama Barang</th>
+                <th scope="col">Harga Barang</th>
+                <th scope="col">Deskripsi</th>
+            </tr>
+        </thead>
+        <tbody id="list_barang">
+            <!-- all of the wishlist fetched by ajax -->
+        </tbody>
+    </table>
+
+    <p>Last login section {{ last_login }}</p>
+
+</div>
+{% endblock content %}
